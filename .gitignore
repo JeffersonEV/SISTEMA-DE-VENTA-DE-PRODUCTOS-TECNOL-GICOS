@@ -1,0 +1,43 @@
+# ===== Java / Maven =====
+target/
+.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+*.class
+*.log
+
+# ===== IDE =====
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+.settings/
+.project
+.classpath
+.factorypath
+springBeans/
+sts4-cache
+.apt_generated
+
+# ===== Node / Angular =====
+node_modules/
+dist/
+.tmp/
+.angular/
+frontend/dist/
+frontend/node_modules/
+npm-debug.log*
+yarn-error.log*
+
+# ===== Secretos / entorno =====
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# ===== OS =====
+Thumbs.db
+Desktop.ini
+.DS_Store

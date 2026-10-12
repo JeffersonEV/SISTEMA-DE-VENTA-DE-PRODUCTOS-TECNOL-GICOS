@@ -1,0 +1,72 @@
+package com.sistematecnologico.controller;
+
+import com.sistematecnologico.dto.common.PageResponse;
+import com.sistematecnologico.dto.usuario.UsuarioRequest;
+import com.sistematecnologico.dto.usuario.UsuarioResponse;
+import com.sistematecnologico.dto.usuario.UsuarioUpdateRequest;
+import com.sistematecnologico.service.UsuarioService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+/**
+ * CRUD completo de usuarios (protegido con rol ADMIN).
+ */
+@RestController
+@RequestMapping("/api/usuarios")
+@Tag(name = "Usuarios", description = "CRUD de usuarios (solo ADMIN)")
+@SecurityRequirement(name = "bearerAuth")
+public class UsuarioController {
+
+    private final UsuarioService usuarioService;
+
+    public UsuarioController(UsuarioService usuarioService) {
+        this.usuarioService = usuarioService;
+    }
+
+    @GetMapping
+    @Operation(summary = "Lista todos los usuarios")
+    public ResponseEntity<List<UsuarioResponse>> listar() {
+        return ResponseEntity.ok(usuarioService.listar());
+    }
+
+    @GetMapping("/paginado")
+    @Operation(summary = "Lista usuarios paginados")
+    public ResponseEntity<PageResponse<UsuarioResponse>> listarPaginado(@PageableDefault(size = 10) Pageable pageable) {
+        return ResponseEntity.ok(usuarioService.listarPaginado(pageable));
+    }
+
+    @GetMapping("/{id}")
+    @Operation(summary = "Obtiene un usuario")
+    public ResponseEntity<UsuarioResponse> obtener(@PathVariable Long id) {
+        return ResponseEntity.ok(usuarioService.obtener(id));
+    }
+
+    @PostMapping
+    @Operation(summary = "Crea un usuario")
+    public ResponseEntity<UsuarioResponse> crear(@Valid @RequestBody UsuarioRequest request) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(usuarioService.crear(request));
+    }
+
+    @PutMapping("/{id}")
+    @Operation(summary = "Actualiza un usuario")
+    public ResponseEntity<UsuarioResponse> actualizar(@PathVariable Long id,
+                                                      @Valid @RequestBody UsuarioUpdateRequest request) {
+        return ResponseEntity.ok(usuarioService.actualizar(id, request));
+    }
+
+    @DeleteMapping("/{id}")
+    @Operation(summary = "Elimina un usuario")
+    public ResponseEntity<Void> eliminar(@PathVariable Long id) {
+        usuarioService.eliminar(id);
+        return ResponseEntity.noContent().build();
+    }
+}
