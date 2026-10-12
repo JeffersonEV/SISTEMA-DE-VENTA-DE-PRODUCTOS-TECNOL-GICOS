@@ -1,0 +1,54 @@
+.lista {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.pedido {
+  padding: 20px;
+
+  &__cabecera {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+  }
+
+  &__fecha {
+    color: #64748b;
+    font-size: 0.88rem;
+    margin-left: 6px;
+  }
+
+  &__detalles {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+
+    tr {
+      border-bottom: 1px solid #f1f5f9;
+    }
+
+    td {
+      padding: 8px 4px;
+    }
+  }
+
+  &__cantidad {
+    color: #64748b;
+    text-align: center;
+  }
+
+  &__derecha {
+    text-align: right;
+    font-weight: 600;
+  }
+
+  &__pie {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 14px;
+    font-size: 1.05rem;
+  }
+}

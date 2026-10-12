@@ -1,0 +1,26 @@
+.admin {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 24px;
+  align-items: start;
+
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+  }
+
+  &__form {
+    padding: 24px;
+    position: sticky;
+    top: 84px;
+
+    h3 {
+      margin-bottom: 18px;
+    }
+  }
+
+  &__dos {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+}

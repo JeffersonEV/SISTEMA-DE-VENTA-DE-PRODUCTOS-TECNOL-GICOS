@@ -1,0 +1,47 @@
+.kpis {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 18px;
+  margin-bottom: 28px;
+}
+
+.kpi {
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  border-top: 4px solid #2563eb;
+
+  &__label {
+    font-size: 0.82rem;
+    color: #64748b;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+  }
+
+  &__valor {
+    font-size: 1.7rem;
+    font-weight: 800;
+    margin-top: 6px;
+  }
+}
+
+.kpi-pendiente {
+  border-top-color: #d97706;
+}
+.kpi-pagado {
+  border-top-color: #16a34a;
+}
+.kpi-cancelado {
+  border-top-color: #dc2626;
+}
+
+.reportes {
+  display: grid;
+  gap: 24px;
+
+  &__titulo {
+    padding: 16px 16px 0;
+    font-size: 1.05rem;
+  }
+}

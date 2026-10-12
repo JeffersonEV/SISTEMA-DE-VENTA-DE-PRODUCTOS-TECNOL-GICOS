@@ -1,0 +1,56 @@
+.back {
+  margin-bottom: 16px;
+}
+
+.detalle {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 32px;
+  padding: 40px;
+  align-items: center;
+
+  @media (max-width: 760px) {
+    grid-template-columns: 1fr;
+    padding: 24px;
+  }
+
+  &__meta {
+    display: flex;
+    gap: 8px;
+    margin: 12px 0;
+  }
+
+  &__descripcion {
+    color: #475569;
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    max-width: 640px;
+  }
+
+  &__precio {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: #2563eb;
+    margin-bottom: 6px;
+  }
+
+  &__stock {
+    font-weight: 600;
+    color: #16a34a;
+    &.sin-stock {
+      color: #dc2626;
+    }
+  }
+
+  &__acciones {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-width: 220px;
+  }
+}
+
+.boton-lg {
+  padding: 14px 26px;
+}
