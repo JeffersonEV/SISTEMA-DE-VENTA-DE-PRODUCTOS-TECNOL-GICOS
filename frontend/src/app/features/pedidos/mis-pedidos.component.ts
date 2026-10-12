@@ -38,7 +38,7 @@ import { PedidoResponse } from '../../core/models/models';
 
             <table class="pedido__detalles">
               <tbody>
-                @for (d of pedido.detalles; track d.id) {
+                @for (d of pedido.detalles; track d.productoId) {
                   <tr>
                     <td>{{ d.productoNombre }}</td>
                     <td class="pedido__cantidad">x{{ d.cantidad }}</td>

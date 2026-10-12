@@ -27,21 +27,25 @@ export class AdminService {
     desde?: string;
     hasta?: string;
   }): Observable<PageResponse<PedidoResponse>> {
-    let p = new HttpParams().set('pagina', params.pagina ?? 0).set('tamanio', params.tamanio ?? 10);
+    let p = new HttpParams().set('page', params.pagina ?? 0).set('size', params.tamanio ?? 10);
     if (params.estado) p = p.set('estado', params.estado);
     if (params.usuarioId) p = p.set('usuarioId', String(params.usuarioId));
-    if (params.desde) p = p.set('desde', params.desde);
-    if (params.hasta) p = p.set('hasta', params.hasta);
+    if (params.desde) p = p.set('desde', this.aFechaHora(params.desde, false));
+    if (params.hasta) p = p.set('hasta', this.aFechaHora(params.hasta, true));
     return this.http.get<PageResponse<PedidoResponse>>(`${environment.apiUrl}/admin/pedidos`, { params: p });
+  }
+
+  private aFechaHora(fecha: string, finDeDia: boolean): string {
+    if (fecha.includes('T')) return fecha;
+    return `${fecha}T${finDeDia ? '23:59:59' : '00:00:00'}`;
   }
 
   cambiarEstado(id: number, estado: EstadoPedido): Observable<PedidoResponse> {
     return this.http.patch<PedidoResponse>(`${environment.apiUrl}/admin/pedidos/${id}/estado`, { estado });
   }
 
-  listarUsuarios(params: { pagina?: number; tamanio?: number; busqueda?: string }): Observable<PageResponse<UsuarioResponse>> {
-    let p = new HttpParams().set('pagina', params.pagina ?? 0).set('tamanio', params.tamanio ?? 10);
-    if (params.busqueda) p = p.set('busqueda', params.busqueda);
+  listarUsuarios(params: { pagina?: number; tamanio?: number }): Observable<PageResponse<UsuarioResponse>> {
+    const p = new HttpParams().set('page', params.pagina ?? 0).set('size', params.tamanio ?? 10);
     return this.http.get<PageResponse<UsuarioResponse>>(`${environment.apiUrl}/admin/usuarios`, { params: p });
   }
 

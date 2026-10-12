@@ -57,7 +57,7 @@ import { EstadoPedido, PageResponse, PedidoResponse } from '../../../core/models
             @for (pedido of pedidos(); track pedido.id) {
               <tr>
                 <td>#{{ pedido.id }}</td>
-                <td>{{ pedido.usuarioNombre }}</td>
+                <td>{{ pedido.cliente }}</td>
                 <td>{{ pedido.fecha | date: 'dd/MM/yyyy HH:mm' }}</td>
                 <td>S/ {{ pedido.total | number: '1.2-2' }}</td>
                 <td>
@@ -131,7 +131,7 @@ export class PedidosComponent implements OnInit {
       })
       .subscribe({
         next: (res) => {
-          this.pedidos.set(res.content);
+          this.pedidos.set(res.contenido);
           this.pagina.set(res);
           this.cargando.set(false);
         },

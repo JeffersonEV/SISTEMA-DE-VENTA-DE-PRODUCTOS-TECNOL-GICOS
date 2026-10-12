@@ -27,8 +27,8 @@ export interface UsuarioResponse {
   nombre: string;
   apellido: string;
   email: string;
-  rol: Rol;
   activo: boolean;
+  rol: Rol;
   fechaRegistro: string;
 }
 
@@ -44,7 +44,6 @@ export interface UsuarioUpdateRequest {
   nombre: string;
   apellido: string;
   email: string;
-  password?: string;
 }
 
 export interface CategoriaResponse {
@@ -59,9 +58,11 @@ export interface ProductoResponse {
   descripcion: string;
   precio: number;
   stock: number;
+  marca?: string | null;
+  imagenUrl?: string | null;
+  activo: boolean;
   categoriaId: number;
   categoriaNombre: string;
-  activo: boolean;
 }
 
 export interface ProductoRequest {
@@ -69,12 +70,13 @@ export interface ProductoRequest {
   descripcion: string;
   precio: number;
   stock: number;
-  categoriaId: number;
+  marca?: string | null;
+  imagenUrl?: string | null;
   activo: boolean;
+  categoriaId: number;
 }
 
 export interface DetallePedidoResponse {
-  id: number;
   productoId: number;
   productoNombre: string;
   cantidad: number;
@@ -85,7 +87,7 @@ export interface DetallePedidoResponse {
 export interface PedidoResponse {
   id: number;
   usuarioId: number;
-  usuarioNombre: string;
+  cliente: string;
   fecha: string;
   estado: EstadoPedido;
   total: number;
@@ -93,9 +95,9 @@ export interface PedidoResponse {
 }
 
 export interface PageResponse<T> {
-  content: T[];
+  contenido: T[];
   pagina: number;
-  tamanio: number;
+  tamano: number;
   totalElementos: number;
   totalPaginas: number;
   ultima: boolean;
@@ -128,7 +130,6 @@ export interface ProductoStockBajo {
   id: number;
   nombre: string;
   stock: number;
-  precio: number;
 }
 
 export interface ErrorResponse {
@@ -136,5 +137,5 @@ export interface ErrorResponse {
   status: number;
   error: string;
   mensaje: string;
-  ruta: string;
+  path: string;
 }

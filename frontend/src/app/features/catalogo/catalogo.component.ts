@@ -50,10 +50,16 @@ import { CategoriaResponse, PageResponse, ProductoResponse } from '../../core/mo
       <section class="grid">
         @for (p of productos(); track p.id) {
           <article class="tarjeta producto">
+            @if (p.imagenUrl) {
+              <img class="producto__img" [src]="p.imagenUrl" [alt]="p.nombre" loading="lazy" />
+            }
             <div class="producto__nombre">{{ p.nombre }}</div>
             <p class="producto__descripcion">{{ p.descripcion }}</p>
             <div class="producto__categoria">
               <span class="badge badge-cliente">{{ p.categoriaNombre }}</span>
+              @if (p.marca) {
+                <span class="producto__marca">{{ p.marca }}</span>
+              }
             </div>
             <div class="producto__precio">S/ {{ p.precio | number: '1.2-2' }}</div>
             <div class="producto__stock"
@@ -118,7 +124,7 @@ export class CatalogoComponent implements OnInit {
       })
       .subscribe({
         next: (res) => {
-          this.productos.set(res.content);
+          this.productos.set(res.contenido);
           this.pagina.set(res);
           this.cargando.set(false);
         },

@@ -89,17 +89,16 @@ import {
           <h3 class="reportes__titulo">Stock bajo (reposición)</h3>
           <table class="tabla">
             <thead>
-              <tr><th>Producto</th><th>Stock</th><th>Precio</th></tr>
+              <tr><th>Producto</th><th>Stock</th></tr>
             </thead>
             <tbody>
               @for (s of stockBajo(); track s.id) {
                 <tr>
                   <td>{{ s.nombre }}</td>
                   <td><span class="badge badge-cancelado">{{ s.stock }}</span></td>
-                  <td>S/ {{ s.precio | number: '1.2-2' }}</td>
                 </tr>
               } @empty {
-                <tr><td colspan="3" class="vacio">Todo el inventario está por encima del umbral.</td></tr>
+                <tr><td colspan="2" class="vacio">Todo el inventario está por encima del umbral.</td></tr>
               }
             </tbody>
           </table>

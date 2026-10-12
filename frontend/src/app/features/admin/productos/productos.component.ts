@@ -149,9 +149,9 @@ export class ProductosComponent implements OnInit {
   }
 
   cargar(): void {
-    this.productoService.listar({ pagina: this.actual(), tamanio: 10 }).subscribe({
+    this.productoService.listar({ pagina: this.actual(), tamanio: 10, soloActivos: false }).subscribe({
       next: (res) => {
-        this.productos.set(res.content);
+        this.productos.set(res.contenido);
         this.pagina.set(res);
       },
       error: (err) => this.error.set(err.error?.mensaje ?? 'Error al cargar productos.')

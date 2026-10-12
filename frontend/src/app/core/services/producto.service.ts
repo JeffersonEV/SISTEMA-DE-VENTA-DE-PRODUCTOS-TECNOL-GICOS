@@ -15,14 +15,16 @@ export class ProductoService {
     categoriaId?: number;
     minPrecio?: number;
     maxPrecio?: number;
+    soloActivos?: boolean;
   }): Observable<PageResponse<ProductoResponse>> {
     let httpParams = new HttpParams();
-    httpParams = httpParams.set('pagina', params.pagina ?? 0);
-    httpParams = httpParams.set('tamanio', params.tamanio ?? 12);
+    httpParams = httpParams.set('page', params.pagina ?? 0);
+    httpParams = httpParams.set('size', params.tamanio ?? 12);
     if (params.nombre) httpParams = httpParams.set('nombre', params.nombre);
     if (params.categoriaId) httpParams = httpParams.set('categoriaId', String(params.categoriaId));
     if (params.minPrecio) httpParams = httpParams.set('minPrecio', String(params.minPrecio));
     if (params.maxPrecio) httpParams = httpParams.set('maxPrecio', String(params.maxPrecio));
+    if (params.soloActivos !== undefined) httpParams = httpParams.set('soloActivos', String(params.soloActivos));
     return this.http.get<PageResponse<ProductoResponse>>(`${environment.apiUrl}/productos`, { params: httpParams });
   }
 

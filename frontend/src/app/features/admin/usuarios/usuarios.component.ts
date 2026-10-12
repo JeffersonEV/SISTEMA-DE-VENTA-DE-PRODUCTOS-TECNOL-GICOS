@@ -90,11 +90,11 @@ import { PageResponse, Rol, UsuarioRequest, UsuarioResponse, UsuarioUpdateReques
               <div class="form-error">Email válido requerido.</div>
             }
           </div>
-          <div class="form-grupo">
-            <label>{{ form.controls['id'].value ? 'Nueva contraseña (opcional)' : 'Contraseña' }}</label>
-            <input type="password" formControlName="password" placeholder="Mínimo 8 caracteres" />
-          </div>
           @if (!form.controls['id'].value) {
+            <div class="form-grupo">
+              <label>Contraseña</label>
+              <input type="password" formControlName="password" placeholder="Mínimo 8 caracteres" />
+            </div>
             <div class="form-grupo">
               <label>Rol</label>
               <select formControlName="rol">
@@ -144,7 +144,7 @@ export class UsuariosComponent implements OnInit {
   cargar(): void {
     this.adminService.listarUsuarios({ pagina: this.actual(), tamanio: 10 }).subscribe({
       next: (res) => {
-        this.usuarios.set(res.content);
+        this.usuarios.set(res.contenido);
         this.pagina.set(res);
       },
       error: (err) => this.error.set(err.error?.mensaje ?? 'Error al cargar usuarios.')
@@ -183,8 +183,7 @@ export class UsuariosComponent implements OnInit {
           const request: UsuarioUpdateRequest = {
             nombre: v.nombre,
             apellido: v.apellido,
-            email: v.email,
-            password: v.password || undefined
+            email: v.email
           };
           return this.adminService.actualizarUsuario(v.id, request);
         })()
