@@ -1,0 +1,9 @@
+[build]
+  command = "npm run build"
+  publish = "dist/frontend/browser"
+
+# SPA: todas las rutas se resuelven con el index de Angular
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

@@ -143,11 +143,25 @@ CREATE DATABASE sistema_tecnologico;   # 1. crear la BD (una vez)
 ./mvnw spring-boot:run                 # 3b. levanta contra PostgreSQL local :8080
 ```
 
-### Frontend (ver `frontend/`)
+### Frontend (SPA Angular 21)
 ```bash
 cd frontend
 npm install
-ng serve           # http://localhost:4200
+npm start          # ng serve → http://localhost:4200 (API en http://localhost:8080/api)
+npm run build      # build de producción
+```
+
+```
+frontend/src/app/
+├── core/            # models, services (auth, productos, categorias, pedidos, admin, carrito),
+│                    # authInterceptor (Bearer + 401), guards (auth/admin/guest)
+├── shared/          # navbar (con carrito y navegación por rol), not-found
+├── features/        # home, catalogo (filtros+paginación), detalle, auth (login/registro),
+│                    # carrito, pedidos (mis-pedidos)
+│   └── admin/       # dashboard (KPIs), categorias, productos, pedidos, usuarios, reportes
+├── app.config.ts    # provideRouter + provideHttpClient(withInterceptors)
+├── app.routes.ts    # rutas con lazy loading y guards
+└── environments/    # apiUrl dev/prod (fileReplacements en production)
 ```
 
 ## 8. Credenciales demo (creadas automáticamente por `DataInitializer`)
