@@ -7,6 +7,7 @@ import { CategoriaResponse } from '../models/models';
 export interface CategoriaRequest {
   nombre: string;
   descripcion: string;
+  padreId?: number | null;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -15,6 +16,10 @@ export class CategoriaService {
 
   listar(): Observable<CategoriaResponse[]> {
     return this.http.get<CategoriaResponse[]>(`${environment.apiUrl}/categorias`);
+  }
+
+  arbol(): Observable<CategoriaResponse[]> {
+    return this.http.get<CategoriaResponse[]>(`${environment.apiUrl}/categorias/arbol`);
   }
 
   obtener(id: number): Observable<CategoriaResponse> {

@@ -18,10 +18,10 @@ import { RouterLink } from '@angular/router';
       h1 {
         font-size: 5rem;
         font-weight: 800;
-        color: #2563eb;
+        color: var(--primario);
       }
       p {
-        color: #64748b;
+        color: var(--texto-suave);
         margin-bottom: 24px;
       }
     }

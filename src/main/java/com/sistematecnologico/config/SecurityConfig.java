@@ -47,7 +47,6 @@ public class SecurityConfig {
                 .cors(Customizer.withDefaults())
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        // Publicos
                         .requestMatchers(
                                 "/api/auth/**",
                                 "/v3/api-docs/**",
@@ -55,17 +54,21 @@ public class SecurityConfig {
                                 "/swagger-ui.html",
                                 "/actuator/health",
                                 "/actuator/info").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/productos/**", "/api/categorias/**").permitAll()
-                        // Solo ADMIN
+                        .requestMatchers(HttpMethod.GET, "/api/productos/**", "/api/categorias/**",
+                                "/api/banners/**", "/api/configuracion/**").permitAll()
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
                         .requestMatchers("/api/usuarios/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.POST, "/api/productos/**", "/api/categorias/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.PUT, "/api/productos/**", "/api/categorias/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.PATCH, "/api/productos/**", "/api/categorias/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.DELETE, "/api/productos/**", "/api/categorias/**").hasRole("ADMIN")
-                        // Cliente autenticado
+                        .requestMatchers(HttpMethod.POST, "/api/productos/**", "/api/categorias/**",
+                                "/api/banners/**", "/api/configuracion/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/api/productos/**", "/api/categorias/**",
+                                "/api/banners/**", "/api/configuracion/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PATCH, "/api/productos/**", "/api/categorias/**",
+                                "/api/banners/**", "/api/configuracion/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/productos/**", "/api/categorias/**",
+                                "/api/banners/**", "/api/configuracion/**").hasRole("ADMIN")
+
                         .requestMatchers("/api/pedidos/**").hasAnyRole("CLIENTE", "ADMIN")
-                        // Resto autenticado
+
                         .anyRequest().authenticated())
                 .exceptionHandling(ex -> ex
                         .authenticationEntryPoint(authenticationEntryPoint)

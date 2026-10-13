@@ -13,10 +13,6 @@ import java.util.List;
 @Repository
 public interface DetallePedidoRepository extends JpaRepository<DetallePedido, Long> {
 
-    /**
-     * Productos mas vendidos (JOIN + GROUP BY + SUM). Excluye pedidos cancelados.
-     * Proyeccion directa a DTO mediante constructor expression.
-     */
     @Query("""
             SELECT new com.sistematecnologico.dto.reporte.TopProducto(
                        dp.producto.id, dp.producto.nombre, SUM(dp.cantidad), SUM(dp.subtotal))
@@ -27,9 +23,6 @@ public interface DetallePedidoRepository extends JpaRepository<DetallePedido, Lo
             """)
     List<TopProducto> topProductos(Pageable pageable);
 
-    /**
-     * Ventas agrupadas por categoria (JOIN + GROUP BY + SUM).
-     */
     @Query("""
             SELECT new com.sistematecnologico.dto.reporte.VentasPorCategoria(
                        c.nombre, SUM(dp.cantidad), SUM(dp.subtotal))

@@ -16,10 +16,6 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 import java.util.List;
 
-/**
- * Lee el header Authorization: Bearer &lt;token&gt;, valida el JWT y coloca
- * la autenticacion en el SecurityContext.
- */
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
@@ -56,7 +52,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
         } catch (Exception ex) {
-            // Token invalido/expirado: se continua sin autenticacion -> 401 via entry point.
+
             SecurityContextHolder.clearContext();
         }
 

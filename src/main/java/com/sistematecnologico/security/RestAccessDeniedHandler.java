@@ -9,9 +9,6 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.time.LocalDateTime;
 
-/**
- * Devuelve 403 en JSON cuando el usuario no tiene el rol requerido.
- */
 @Component
 public class RestAccessDeniedHandler implements AccessDeniedHandler {
 

@@ -3,9 +3,6 @@ package com.sistematecnologico.dto.common;
 import java.time.LocalDateTime;
 import java.util.Map;
 
-/**
- * Respuesta de error uniforme. No expone detalles tecnicos (stack traces, SQL, etc.).
- */
 public record ErrorResponse(
         LocalDateTime timestamp,
         int status,

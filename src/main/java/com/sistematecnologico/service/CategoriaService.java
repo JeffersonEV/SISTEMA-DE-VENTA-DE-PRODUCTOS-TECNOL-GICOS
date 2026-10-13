@@ -11,6 +11,7 @@ import com.sistematecnologico.repository.ProductoRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -26,7 +27,17 @@ public class CategoriaService {
 
     @Transactional(readOnly = true)
     public List<CategoriaResponse> listar() {
-        return categoriaRepository.findAll().stream().map(this::toResponse).toList();
+        return categoriaRepository.findAll().stream()
+                .sorted(Comparator.comparing(Categoria::getNombre, String.CASE_INSENSITIVE_ORDER))
+                .map(this::toResponse)
+                .toList();
+    }
+
+    @Transactional(readOnly = true)
+    public List<CategoriaResponse> arbol() {
+        return categoriaRepository.findByPadreIsNullOrderByNombreAsc().stream()
+                .map(this::toArbol)
+                .toList();
     }
 
     @Transactional(readOnly = true)
@@ -48,6 +59,7 @@ public class CategoriaService {
         Categoria categoria = Categoria.builder()
                 .nombre(request.nombre())
                 .descripcion(request.descripcion())
+                .padre(resolverPadre(request.padreId(), null))
                 .build();
         return toResponse(categoriaRepository.save(categoria));
     }
@@ -60,6 +72,7 @@ public class CategoriaService {
         }
         categoria.setNombre(request.nombre());
         categoria.setDescripcion(request.descripcion());
+        categoria.setPadre(resolverPadre(request.padreId(), id));
         return toResponse(categoriaRepository.save(categoria));
     }
 
@@ -69,10 +82,53 @@ public class CategoriaService {
         if (productoRepository.existsByCategoriaId(id)) {
             throw new ReglaNegocioException("No se puede eliminar la categoria porque tiene productos asociados");
         }
+        if (categoriaRepository.existsByPadreId(id)) {
+            throw new ReglaNegocioException("No se puede eliminar la categoria porque tiene subcategorias asociadas");
+        }
         categoriaRepository.delete(categoria);
     }
 
+    private Categoria resolverPadre(Long padreId, Long idActual) {
+        if (padreId == null) {
+            return null;
+        }
+        if (idActual != null && padreId.equals(idActual)) {
+            throw new ReglaNegocioException("Una categoria no puede ser su propia categoria padre");
+        }
+        Categoria padre = entidad(padreId);
+        Categoria ancestro = padre;
+        while (ancestro != null) {
+            if (idActual != null && ancestro.getId().equals(idActual)) {
+                throw new ReglaNegocioException("No se puede asignar una categoria descendiente como padre");
+            }
+            ancestro = ancestro.getPadre();
+        }
+        return padre;
+    }
+
     private CategoriaResponse toResponse(Categoria c) {
-        return new CategoriaResponse(c.getId(), c.getNombre(), c.getDescripcion());
+        return new CategoriaResponse(
+                c.getId(),
+                c.getNombre(),
+                c.getDescripcion(),
+                c.getPadre() != null ? c.getPadre().getId() : null,
+                c.getPadre() != null ? c.getPadre().getNombre() : null,
+                List.of()
+        );
+    }
+
+    private CategoriaResponse toArbol(Categoria c) {
+        List<CategoriaResponse> hijos = c.getSubcategorias().stream()
+                .sorted(Comparator.comparing(Categoria::getNombre, String.CASE_INSENSITIVE_ORDER))
+                .map(this::toArbol)
+                .toList();
+        return new CategoriaResponse(
+                c.getId(),
+                c.getNombre(),
+                c.getDescripcion(),
+                c.getPadre() != null ? c.getPadre().getId() : null,
+                c.getPadre() != null ? c.getPadre().getNombre() : null,
+                hijos
+        );
     }
 }

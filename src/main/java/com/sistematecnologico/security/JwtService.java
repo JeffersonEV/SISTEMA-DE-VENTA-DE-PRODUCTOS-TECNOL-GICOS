@@ -11,9 +11,6 @@ import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
 
-/**
- * Genera y valida tokens JWT firmados con HMAC-SHA256.
- */
 @Service
 public class JwtService {
 

@@ -1,0 +1,125 @@
+.pie {
+  background: var(--chrome);
+  color: var(--chrome-suave);
+  margin-top: 64px;
+  border-top: 1px solid var(--chrome-borde);
+}
+
+.pie__grid {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr 1fr 1.4fr;
+  gap: 32px;
+  padding-top: 46px;
+  padding-bottom: 38px;
+}
+
+.pie__logo {
+  display: inline-block;
+  margin-bottom: 14px;
+  font-size: 1.45rem;
+  font-weight: 800;
+  color: #fff;
+
+  span {
+    color: var(--chrome-acento);
+  }
+
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+.footer-texto {
+  max-width: 320px;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--chrome-suave);
+}
+
+.redes {
+  display: flex;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.red {
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  background: var(--chrome-hover);
+  color: var(--chrome-texto);
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  transition: background 0.15s ease, color 0.15s ease;
+
+  &:hover {
+    background: var(--chrome-activo);
+    color: #fff;
+    text-decoration: none;
+  }
+}
+
+.footer-col {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  h4 {
+    margin-bottom: 4px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #fff;
+  }
+
+  a,
+  span {
+    font-size: 0.9rem;
+    color: var(--chrome-suave);
+    word-break: break-word;
+
+    &:hover {
+      color: #fff;
+      text-decoration: none;
+    }
+  }
+}
+
+.footer-banda {
+  border-top: 1px solid var(--chrome-borde);
+  background: rgba(0, 0, 0, 0.18);
+}
+
+.footer-banda__fila {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding-top: 16px;
+  padding-bottom: 16px;
+  font-size: 0.82rem;
+  color: var(--chrome-suave);
+}
+
+@media (max-width: 900px) {
+  .pie__grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 26px;
+    padding-top: 34px;
+  }
+}
+
+@media (max-width: 560px) {
+  .pie__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .footer-banda__fila {
+    justify-content: center;
+    text-align: center;
+  }
+}

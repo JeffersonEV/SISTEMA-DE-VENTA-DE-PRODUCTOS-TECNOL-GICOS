@@ -4,9 +4,6 @@ import com.sistematecnologico.entity.Rol;
 
 import java.time.LocalDateTime;
 
-/**
- * DTO de salida. Nunca incluye la contrasena.
- */
 public record UsuarioResponse(
         Long id,
         String nombre,

@@ -11,9 +11,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-/**
- * UserDetailsService por email. La autoridad se expone como ROLE_<rol>.
- */
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 

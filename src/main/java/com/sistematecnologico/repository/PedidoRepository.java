@@ -16,25 +16,19 @@ import java.util.List;
 @Repository
 public interface PedidoRepository extends JpaRepository<Pedido, Long> {
 
-    // ---------- Derived queries ----------
     List<Pedido> findByUsuarioIdOrderByFechaDesc(Long usuarioId);
 
     long countByEstado(EstadoPedido estado);
 
-    // ---------- JPQL ----------
-
-    /** Historial de pedidos de un usuario ordenado por fecha descendente. */
     @Query("SELECT p FROM Pedido p WHERE p.usuario.id = :usuarioId ORDER BY p.fecha DESC")
     List<Pedido> historialPorUsuario(@Param("usuarioId") Long usuarioId);
 
-    /** Pedidos filtrados por estado y rango de fechas. */
     @Query("SELECT p FROM Pedido p WHERE p.estado = :estado "
             + "AND p.fecha BETWEEN :desde AND :hasta ORDER BY p.fecha DESC")
     List<Pedido> porEstadoYRangoFechas(@Param("estado") EstadoPedido estado,
                                        @Param("desde") LocalDateTime desde,
                                        @Param("hasta") LocalDateTime hasta);
 
-    /** Filtro paginado para el panel administrativo. */
     @Query("""
             SELECT p FROM Pedido p
             WHERE (:estado IS NULL OR p.estado = :estado)
@@ -48,7 +42,6 @@ public interface PedidoRepository extends JpaRepository<Pedido, Long> {
                              @Param("hasta") LocalDateTime hasta,
                              Pageable pageable);
 
-    /** Total de ventas (pedidos no cancelados). */
     @Query("SELECT COALESCE(SUM(p.total), 0) FROM Pedido p WHERE p.estado <> com.sistematecnologico.entity.EstadoPedido.CANCELADO")
     BigDecimal totalVentas();
 }

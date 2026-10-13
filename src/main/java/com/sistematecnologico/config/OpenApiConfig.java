@@ -7,9 +7,6 @@ import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import org.springframework.context.annotation.Configuration;
 
-/**
- * Configuracion de OpenAPI/Swagger con esquema Bearer JWT (boton "Authorize").
- */
 @Configuration
 @OpenAPIDefinition(info = @Info(
         title = "TechStore API",

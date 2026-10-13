@@ -5,9 +5,6 @@ import org.springframework.data.domain.Page;
 import java.util.List;
 import java.util.function.Function;
 
-/**
- * Wrapper estable para respuestas paginadas (evita serializar PageImpl directamente).
- */
 public record PageResponse<T>(
         List<T> contenido,
         int pagina,

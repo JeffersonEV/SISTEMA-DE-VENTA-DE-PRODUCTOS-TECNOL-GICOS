@@ -1,6 +1,6 @@
 .filtros {
   display: grid;
-  grid-template-columns: 1.2fr 1.2fr 1fr 1fr auto;
+  grid-template-columns: 2fr 1.5fr 1fr 1fr auto;
   gap: 14px;
   align-items: end;
   padding: 20px;
@@ -18,9 +18,10 @@
 
 .pedidos__select {
   padding: 6px 10px;
-  border: 1px solid #e2e8f0;
+  border: 1px solid var(--borde);
   border-radius: 8px;
-  background: #fff;
+  background: var(--input-bg);
+  color: var(--texto);
   font-size: 0.85rem;
   cursor: pointer;
   &:disabled {

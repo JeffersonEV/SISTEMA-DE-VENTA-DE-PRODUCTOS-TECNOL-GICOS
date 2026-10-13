@@ -19,10 +19,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-/**
- * Manejo global de errores. Devuelve una respuesta JSON uniforme sin exponer
- * detalles tecnicos (stack traces, SQL, nombres de clases, etc.).
- */
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 

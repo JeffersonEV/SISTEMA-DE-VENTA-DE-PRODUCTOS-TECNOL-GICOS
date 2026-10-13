@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal, WritableSignal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CategoriaService, CategoriaRequest } from '../../../core/services/categoria.service';
 import { CategoriaResponse } from '../../../core/models/models';
@@ -8,7 +8,7 @@ import { CategoriaResponse } from '../../../core/models/models';
   imports: [ReactiveFormsModule],
   template: `
     <h1 class="titulo-pagina">Categorías</h1>
-    <p class="subtitulo-pagina">Administra las categorías del catálogo.</p>
+    <p class="subtitulo-pagina">Administra las categorías y subcategorías del catálogo.</p>
 
     @if (error()) {
       <div class="mensaje-error">{{ error() }}</div>
@@ -19,13 +19,19 @@ import { CategoriaResponse } from '../../../core/models/models';
         <div class="tabla-contenedor">
           <table class="tabla">
             <thead>
-              <tr><th>ID</th><th>Nombre</th><th>Descripción</th><th>Acciones</th></tr>
+              <tr><th>ID</th><th>Nombre</th><th>Padre</th><th>Descripción</th><th>Acciones</th></tr>
             </thead>
             <tbody>
               @for (c of categorias(); track c.id) {
                 <tr>
                   <td>{{ c.id }}</td>
-                  <td>{{ c.nombre }}</td>
+                  <td>
+                    {{ c.nombre }}
+                    @if (c.padreId) {
+                      <span class="pedidos__select" style="opacity:.6;border:none">subcategoría</span>
+                    }
+                  </td>
+                  <td>{{ c.padreNombre || '—' }}</td>
                   <td>{{ c.descripcion }}</td>
                   <td>
                     <button class="boton boton-ghost boton-sm" (click)="editar(c)">Editar</button>
@@ -33,7 +39,7 @@ import { CategoriaResponse } from '../../../core/models/models';
                   </td>
                 </tr>
               } @empty {
-                <tr><td colspan="4" class="vacio">No hay categorías.</td></tr>
+                <tr><td colspan="5" class="vacio">No hay categorías.</td></tr>
               }
             </tbody>
           </table>
@@ -54,6 +60,15 @@ import { CategoriaResponse } from '../../../core/models/models';
             <label>Descripción</label>
             <textarea formControlName="descripcion" placeholder="Descripción breve…"></textarea>
           </div>
+          <div class="form-grupo">
+            <label>Categoría padre (opcional)</label>
+            <select formControlName="padreId">
+              <option [ngValue]="null">Sin padre (categoría principal)</option>
+              @for (c of posiblesPadres(); track c.id) {
+                <option [ngValue]="c.id">{{ c.nombre }}</option>
+              }
+            </select>
+          </div>
           <div style="display:flex;gap:8px">
             <button class="boton boton-primario" type="submit" [disabled]="form.invalid || guardando()">
               {{ guardando() ? 'Guardando…' : 'Guardar' }}
@@ -68,23 +83,29 @@ import { CategoriaResponse } from '../../../core/models/models';
   `,
   styleUrl: './categorias.component.scss'
 })
-export class CategoriasComponent implements OnInit {
+export class CategoriasComponent {
   private categoriaService = inject(CategoriaService);
   private fb = inject(FormBuilder);
 
-  readonly categorias: WritableSignal<CategoriaResponse[]> = signal([]);
+  readonly categorias = signal<CategoriaResponse[]>([]);
   readonly cargando = signal(false);
   readonly guardando = signal(false);
   readonly error = signal('');
 
-  form = this.fb.nonNullable.group({
+  form = this.fb.group({
     id: [null as number | null],
     nombre: ['', Validators.required],
-    descripcion: ['']
+    descripcion: [''],
+    padreId: [null as number | null]
   });
 
   ngOnInit(): void {
     this.cargar();
+  }
+
+  posiblesPadres(): CategoriaResponse[] {
+    const actual = this.form.controls.id.value;
+    return this.categorias().filter((c) => c.id !== actual);
   }
 
   cargar(): void {
@@ -96,17 +117,22 @@ export class CategoriasComponent implements OnInit {
   }
 
   nuevo(): void {
-    this.form.reset({ id: null, nombre: '', descripcion: '' });
+    this.form.reset({ id: null, nombre: '', descripcion: '', padreId: null });
   }
 
   editar(c: CategoriaResponse): void {
-    this.form.setValue({ id: c.id, nombre: c.nombre, descripcion: c.descripcion });
+    this.form.setValue({
+      id: c.id,
+      nombre: c.nombre,
+      descripcion: c.descripcion,
+      padreId: c.padreId ?? null
+    });
   }
 
   guardar(): void {
     if (this.form.invalid) return;
-    const { id, ...categoria } = this.form.getRawValue();
-    const request: CategoriaRequest = { nombre: categoria.nombre, descripcion: categoria.descripcion ?? '' };
+    const { id, nombre, descripcion, padreId } = this.form.getRawValue();
+    const request: CategoriaRequest = { nombre: nombre ?? '', descripcion: descripcion ?? '', padreId: padreId ?? null };
     this.guardando.set(true);
     this.error.set('');
     const operacion = id
@@ -129,7 +155,9 @@ export class CategoriasComponent implements OnInit {
     if (!confirm(`¿Eliminar la categoría "${c.nombre}"?`)) return;
     this.categoriaService.eliminar(c.id).subscribe({
       next: () => this.cargar(),
-      error: (err) => this.error.set(err.error?.mensaje ?? 'No se pudo eliminar.')
+      error: (err) => {
+        this.error.set(err.error?.mensaje ?? 'No se pudo eliminar la categoría.');
+      }
     });
   }
 }

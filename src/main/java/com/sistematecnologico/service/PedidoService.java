@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,19 +29,18 @@ public class PedidoService {
     private final PedidoRepository pedidoRepository;
     private final ProductoRepository productoRepository;
     private final UsuarioService usuarioService;
+    private final InventarioService inventarioService;
 
     public PedidoService(PedidoRepository pedidoRepository,
                          ProductoRepository productoRepository,
-                         UsuarioService usuarioService) {
+                         UsuarioService usuarioService,
+                         InventarioService inventarioService) {
         this.pedidoRepository = pedidoRepository;
         this.productoRepository = productoRepository;
         this.usuarioService = usuarioService;
+        this.inventarioService = inventarioService;
     }
 
-    /**
-     * Crea un pedido: valida producto activo y stock, descuenta inventario
-     * y calcula el total en el backend (nunca confia en el cliente).
-     */
     @Transactional
     public PedidoResponse crear(String email, PedidoRequest request) {
         Usuario usuario = usuarioService.porEmail(email);
@@ -58,6 +58,7 @@ public class PedidoService {
                 .build();
 
         BigDecimal total = BigDecimal.ZERO;
+        List<MovimientoPendiente> pendientes = new ArrayList<>();
         for (Map.Entry<Long, Integer> entry : cantidades.entrySet()) {
             Producto producto = productoRepository.findById(entry.getKey())
                     .orElseThrow(() -> new RecursoNoEncontradoException("Producto no encontrado con id " + entry.getKey()));
@@ -71,8 +72,11 @@ public class PedidoService {
                         + "'. Disponible: " + producto.getStock());
             }
 
-            producto.setStock(producto.getStock() - cantidad);
+            int stockAnterior = producto.getStock();
+            int stockNuevo = stockAnterior - cantidad;
+            producto.setStock(stockNuevo);
             productoRepository.save(producto);
+            pendientes.add(new MovimientoPendiente(producto, cantidad, stockAnterior, stockNuevo));
 
             BigDecimal precio = producto.getPrecio();
             BigDecimal subtotal = precio.multiply(BigDecimal.valueOf(cantidad));
@@ -90,6 +94,10 @@ public class PedidoService {
 
         pedido.setTotal(total);
         Pedido guardado = pedidoRepository.save(pedido);
+        for (MovimientoPendiente p : pendientes) {
+            inventarioService.registrarAutomatico(p.producto(), TipoMovimiento.SALIDA, p.cantidad(),
+                    p.stockAnterior(), p.stockNuevo(), "Venta - Pedido #" + guardado.getId(), guardado.getId());
+        }
         return toResponse(guardado);
     }
 
@@ -110,10 +118,6 @@ public class PedidoService {
         return toResponse(pedido);
     }
 
-    /**
-     * Cancela un pedido PENDIENTE y devuelve el stock. Un CLIENTE solo puede
-     * cancelar sus propios pedidos.
-     */
     @Transactional
     public PedidoResponse cancelar(Long id, String email, boolean esAdmin) {
         Pedido pedido = pedidoRepository.findById(id)
@@ -130,8 +134,6 @@ public class PedidoService {
         pedido.setEstado(EstadoPedido.CANCELADO);
         return toResponse(pedidoRepository.save(pedido));
     }
-
-    // ---------------- Panel administrativo ----------------
 
     @Transactional(readOnly = true)
     public PageResponse<PedidoResponse> adminListar(EstadoPedido estado, Long usuarioId,
@@ -156,8 +158,12 @@ public class PedidoService {
     private void restaurarStock(Pedido pedido) {
         for (DetallePedido detalle : pedido.getDetalles()) {
             Producto producto = detalle.getProducto();
-            producto.setStock(producto.getStock() + detalle.getCantidad());
+            int stockAnterior = producto.getStock();
+            int stockNuevo = stockAnterior + detalle.getCantidad();
+            producto.setStock(stockNuevo);
             productoRepository.save(producto);
+            inventarioService.registrarAutomatico(producto, TipoMovimiento.ENTRADA, detalle.getCantidad(),
+                    stockAnterior, stockNuevo, "Cancelacion - Pedido #" + pedido.getId(), pedido.getId());
         }
     }
 
@@ -180,5 +186,8 @@ public class PedidoService {
                 pedido.getEstado(),
                 pedido.getTotal(),
                 detalles);
+    }
+
+    private record MovimientoPendiente(Producto producto, int cantidad, int stockAnterior, int stockNuevo) {
     }
 }

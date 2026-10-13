@@ -9,6 +9,8 @@ public record CategoriaRequest(
         String nombre,
 
         @Size(max = 255, message = "La descripcion no debe superar 255 caracteres")
-        String descripcion
+        String descripcion,
+
+        Long padreId
 ) {
 }

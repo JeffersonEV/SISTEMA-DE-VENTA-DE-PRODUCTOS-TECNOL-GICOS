@@ -29,7 +29,6 @@ public class DetallePedido {
     @Column(nullable = false)
     private Integer cantidad;
 
-    /** Precio del producto al momento de la compra (no se recalcula). */
     @Column(name = "precio_unitario", nullable = false, precision = 12, scale = 2)
     private BigDecimal precioUnitario;
 

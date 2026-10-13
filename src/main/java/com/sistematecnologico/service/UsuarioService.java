@@ -58,7 +58,6 @@ public class UsuarioService {
                 .orElseThrow(() -> new RecursoNoEncontradoException("Usuario no encontrado"));
     }
 
-    /** Registro publico: siempre rol CLIENTE. */
     @Transactional
     public UsuarioResponse registrarCliente(RegistroRequest request) {
         if (usuarioRepository.existsByEmail(request.email())) {
@@ -75,7 +74,6 @@ public class UsuarioService {
         return toResponse(usuarioRepository.save(usuario));
     }
 
-    /** Alta realizada por un ADMIN (puede asignar cualquier rol). */
     @Transactional
     public UsuarioResponse crear(UsuarioRequest request) {
         if (usuarioRepository.existsByEmail(request.email())) {

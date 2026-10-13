@@ -15,7 +15,7 @@
   }
 
   &__sub {
-    color: #64748b;
+    color: var(--texto-suave);
     font-size: 0.9rem;
     margin-bottom: 24px;
   }
@@ -28,22 +28,23 @@
   &__enlace {
     margin-top: 20px;
     font-size: 0.9rem;
-    color: #64748b;
+    color: var(--texto-suave);
     text-align: center;
   }
 
   &__demo {
     margin-top: 14px;
     font-size: 0.78rem;
-    color: #94a3b8;
-    background: #f8fafc;
+    color: var(--texto-tenue);
+    background: var(--tarjeta-2);
+    border: 1px solid var(--borde);
     border-radius: 8px;
     padding: 10px;
     text-align: center;
     code {
-      background: #e2e8f0;
+      background: var(--superficie-suave);
       border-radius: 4px;
-      padding: 1px 5px;
+      padding: 2px 5px;
     }
   }
 }

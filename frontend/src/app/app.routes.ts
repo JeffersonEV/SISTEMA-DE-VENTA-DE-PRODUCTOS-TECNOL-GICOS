@@ -29,32 +29,15 @@ export const routes: Routes = [
   {
     path: 'admin',
     canActivate: [adminGuard],
-    loadComponent: () => import('./features/admin/dashboard/dashboard.component').then((m) => m.DashboardComponent)
-  },
-  {
-    path: 'admin/categorias',
-    canActivate: [adminGuard],
-    loadComponent: () => import('./features/admin/categorias/categorias.component').then((m) => m.CategoriasComponent)
-  },
-  {
-    path: 'admin/productos',
-    canActivate: [adminGuard],
-    loadComponent: () => import('./features/admin/productos/productos.component').then((m) => m.ProductosComponent)
-  },
-  {
-    path: 'admin/pedidos',
-    canActivate: [adminGuard],
-    loadComponent: () => import('./features/admin/pedidos/pedidos.component').then((m) => m.PedidosComponent)
-  },
-  {
-    path: 'admin/usuarios',
-    canActivate: [adminGuard],
-    loadComponent: () => import('./features/admin/usuarios/usuarios.component').then((m) => m.UsuariosComponent)
-  },
-  {
-    path: 'admin/reportes',
-    canActivate: [adminGuard],
-    loadComponent: () => import('./features/admin/reportes/reportes.component').then((m) => m.ReportesComponent)
+    loadComponent: () => import('./features/admin/admin-layout/admin-layout.component').then((m) => m.AdminLayoutComponent),
+    children: [
+      { path: '', loadComponent: () => import('./features/admin/dashboard/dashboard.component').then((m) => m.DashboardComponent) },
+      { path: 'categorias', loadComponent: () => import('./features/admin/categorias/categorias.component').then((m) => m.CategoriasComponent) },
+      { path: 'productos', loadComponent: () => import('./features/admin/productos/productos.component').then((m) => m.ProductosComponent) },
+      { path: 'pedidos', loadComponent: () => import('./features/admin/pedidos/pedidos.component').then((m) => m.PedidosComponent) },
+      { path: 'usuarios', loadComponent: () => import('./features/admin/usuarios/usuarios.component').then((m) => m.UsuariosComponent) },
+      { path: 'reportes', loadComponent: () => import('./features/admin/reportes/reportes.component').then((m) => m.ReportesComponent) }
+    ]
   },
   { path: '**', loadComponent: () => import('./shared/components/not-found/not-found.component').then((m) => m.NotFoundComponent) }
 ];

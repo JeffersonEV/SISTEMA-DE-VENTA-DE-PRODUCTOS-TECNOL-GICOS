@@ -6,9 +6,6 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
-/**
- * Alta de usuario realizada por un ADMIN (puede asignar rol).
- */
 public record UsuarioRequest(
         @NotBlank(message = "El nombre es obligatorio")
         @Size(min = 2, max = 80)

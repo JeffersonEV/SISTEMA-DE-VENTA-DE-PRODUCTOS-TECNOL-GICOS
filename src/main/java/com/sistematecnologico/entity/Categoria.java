@@ -25,6 +25,14 @@ public class Categoria {
     @Column(length = 255)
     private String descripcion;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "padre_id", foreignKey = @ForeignKey(name = "fk_categorias_padre"))
+    private Categoria padre;
+
+    @OneToMany(mappedBy = "padre", fetch = FetchType.LAZY)
+    @Builder.Default
+    private List<Categoria> subcategorias = new ArrayList<>();
+
     @OneToMany(mappedBy = "categoria", fetch = FetchType.LAZY)
     @Builder.Default
     private List<Producto> productos = new ArrayList<>();

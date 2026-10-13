@@ -92,10 +92,6 @@ public class ProductoService {
         return toResponse(productoRepository.save(producto));
     }
 
-    /**
-     * Si el producto tiene pedidos asociados se aplica borrado logico (activo=false);
-     * en caso contrario se elimina fisicamente.
-     */
     @Transactional
     public void eliminar(Long id) {
         Producto producto = entidad(id);

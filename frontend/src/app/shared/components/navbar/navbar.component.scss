@@ -2,15 +2,16 @@
   position: sticky;
   top: 0;
   z-index: 100;
-  background: #0f172a;
+  background: var(--chrome);
   color: #fff;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.28);
+  transition: background-color 0.25s ease;
 
   &__inner {
     display: flex;
     align-items: center;
-    gap: 24px;
-    height: 64px;
+    gap: 16px;
+    height: 66px;
   }
 
   &__logo {
@@ -18,29 +19,38 @@
     font-weight: 800;
     color: #fff;
     text-decoration: none;
+    white-space: nowrap;
     span {
-      color: #2563eb;
+      color: var(--chrome-acento);
+    }
+    &:hover {
+      text-decoration: none;
     }
   }
 
   &__links {
     display: flex;
+    align-items: center;
     gap: 4px;
-    flex: 1;
+    margin-left: 8px;
+
     a {
-      color: #cbd5e1;
+      color: var(--chrome-suave);
+      font-size: 0.95rem;
+      font-weight: 600;
       padding: 8px 12px;
       border-radius: 8px;
-      font-size: 0.9rem;
-      font-weight: 500;
+      transition: background 0.15s, color 0.15s;
+
       &:hover {
         color: #fff;
-        background: rgba(255, 255, 255, 0.1);
+        background: var(--chrome-hover);
         text-decoration: none;
       }
+
       &.activo {
         color: #fff;
-        background: rgba(37, 99, 235, 0.4);
+        background: var(--chrome-activo);
       }
     }
   }
@@ -48,15 +58,20 @@
   &__actions {
     display: flex;
     align-items: center;
-    gap: 14px;
+    gap: 12px;
+    margin-left: auto;
   }
 
   &__carrito {
     position: relative;
     color: #fff;
     font-size: 1.2rem;
+
     .icono {
-      font-size: 1.3rem;
+      font-size: 1.5rem;
+    }
+    &:hover {
+      text-decoration: none;
     }
   }
 
@@ -64,23 +79,24 @@
     position: absolute;
     top: -6px;
     right: -8px;
-    background: #dc2626;
+    background: var(--peligro);
     color: #fff;
-    font-size: 0.7rem;
+    font-size: 0.72rem;
     font-weight: 700;
     border-radius: 999px;
-    padding: 2px 6px;
-    line-height: 1;
+    padding: 2px 7px;
+    line-height: 1.2;
   }
 
   &__usuario {
-    font-size: 0.85rem;
-    color: #cbd5e1;
+    font-size: 0.95rem;
+    color: var(--chrome-suave);
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
+
     .badge {
-      font-size: 0.65rem;
+      font-size: 0.7rem;
     }
   }
 
@@ -89,23 +105,25 @@
     color: #fca5a5;
     border: 1px solid rgba(252, 165, 165, 0.5);
     border-radius: 8px;
-    padding: 6px 12px;
-    font-size: 0.85rem;
+    padding: 9px 16px;
+    font-size: 0.95rem;
     font-weight: 600;
     cursor: pointer;
     transition: background 0.15s;
+
     &:hover {
       background: rgba(220, 38, 38, 0.2);
     }
   }
 
   &__login {
-    color: #e2e8f0;
-    font-size: 0.9rem;
+    color: var(--chrome-texto);
+    font-size: 1rem;
     font-weight: 600;
-    border: 1px solid #334155;
+    border: 1px solid var(--chrome-borde);
     border-radius: 8px;
-    padding: 7px 14px;
+    padding: 9px 18px;
+
     &:hover {
       color: #fff;
       text-decoration: none;
@@ -113,29 +131,74 @@
   }
 
   &__registro {
-    background: #2563eb;
+    background: var(--primario);
     color: #fff;
-    font-size: 0.9rem;
+    font-size: 1rem;
     font-weight: 600;
     border-radius: 8px;
-    padding: 7px 14px;
+    padding: 9px 18px;
+
     &:hover {
-      background: #1e40af;
+      background: var(--primario-oscuro);
       text-decoration: none;
     }
   }
 
+  &__toggle {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    background: transparent;
+    border: 1px solid var(--chrome-borde);
+    border-radius: 9px;
+    color: #fff;
+    font-size: 1.25rem;
+    cursor: pointer;
+
+    &:hover {
+      background: var(--chrome-hover);
+    }
+  }
+
   @media (max-width: 860px) {
-    &__inner {
-      flex-wrap: wrap;
-      height: auto;
-      padding: 8px 0;
+    &__toggle {
+      display: inline-flex;
+      margin-left: auto;
+    }
+
+    &__links {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      display: none;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 4px;
+      margin-left: 0;
+      padding: 12px 20px 18px;
+      background: var(--chrome);
+      border-top: 1px solid var(--chrome-borde);
+      box-shadow: 0 14px 28px rgba(0, 0, 0, 0.32);
+
+      &--abierto {
+        display: flex;
+      }
+
+      a {
+        padding: 12px 14px;
+      }
+    }
+
+    &__actions {
+      margin-left: 10px;
       gap: 8px;
     }
-    &__links {
-      order: 3;
-      width: 100%;
-      flex-wrap: wrap;
+
+    &__usuario span {
+      display: none;
     }
   }
 }

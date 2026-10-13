@@ -30,6 +30,12 @@ public class CategoriaController {
         return ResponseEntity.ok(categoriaService.listar());
     }
 
+    @GetMapping("/arbol")
+    @Operation(summary = "Lista categorias con sus subcategorias anidadas (publico)")
+    public ResponseEntity<List<CategoriaResponse>> arbol() {
+        return ResponseEntity.ok(categoriaService.arbol());
+    }
+
     @GetMapping("/{id}")
     @Operation(summary = "Obtiene una categoria por id (publico)")
     public ResponseEntity<CategoriaResponse> obtener(@PathVariable Long id) {

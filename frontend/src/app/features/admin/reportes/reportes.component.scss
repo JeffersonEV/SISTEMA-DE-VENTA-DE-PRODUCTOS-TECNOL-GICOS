@@ -1,47 +1,80 @@
 .kpis {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
   gap: 18px;
-  margin-bottom: 28px;
+  margin-bottom: 6px;
+}
+
+.kpis--reportes {
+  grid-template-columns: 2fr repeat(3, 1fr);
+
+  @media (max-width: 900px) {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  }
 }
 
 .kpi {
   padding: 22px;
   display: flex;
   flex-direction: column;
-  border-top: 4px solid #2563eb;
+  border-top: 4px solid var(--primario);
 
   &__label {
     font-size: 0.82rem;
-    color: #64748b;
+    color: var(--texto-suave);
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.4px;
   }
 
   &__valor {
-    font-size: 1.7rem;
+    font-size: 1.9rem;
     font-weight: 800;
+    margin-top: 6px;
+  }
+
+  &__sub {
+    font-size: 0.82rem;
+    color: var(--texto-tenue);
     margin-top: 6px;
   }
 }
 
+.kpi--grande {
+  background: var(--brand-grad);
+  border-top: none;
+  color: #fff;
+  box-shadow: 0 12px 30px rgba(37, 99, 235, 0.3);
+
+  .kpi__label {
+    color: rgba(255, 255, 255, 0.88);
+  }
+
+  .kpi__valor {
+    font-size: 3rem;
+    letter-spacing: -0.02em;
+  }
+
+  .kpi__sub {
+    color: rgba(255, 255, 255, 0.85);
+  }
+
+  @media (max-width: 900px) {
+    grid-column: 1 / -1;
+  }
+}
+
 .kpi-pendiente {
-  border-top-color: #d97706;
+  border-top-color: var(--advertencia);
 }
 .kpi-pagado {
-  border-top-color: #16a34a;
+  border-top-color: var(--exito);
 }
 .kpi-cancelado {
-  border-top-color: #dc2626;
+  border-top-color: var(--peligro);
 }
 
-.reportes {
-  display: grid;
-  gap: 24px;
-
-  &__titulo {
-    padding: 16px 16px 0;
-    font-size: 1.05rem;
-  }
+.reportes__titulo {
+  padding: 16px 16px 0;
+  font-size: 1.05rem;
 }

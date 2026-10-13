@@ -27,26 +27,27 @@
 
   &__info {
     flex: 1;
+    min-width: 160px;
   }
 
   &__nombre {
     font-weight: 700;
     font-size: 1rem;
+    color: var(--primario);
     &:hover {
-      text-decoration: none;
-      color: #1e40af;
+      color: var(--primario-oscuro);
     }
   }
 
   &__precio {
-    color: #2563eb;
-    font-weight: 700;
+    color: var(--texto-suave);
+    font-size: 0.9rem;
     margin-top: 4px;
   }
 
   &__stock {
-    font-size: 0.8rem;
-    color: #64748b;
+    color: var(--texto-suave);
+    font-size: 0.82rem;
   }
 
   &__cantidad {
@@ -85,15 +86,15 @@
       display: flex;
       justify-content: space-between;
       padding: 8px 0;
-      color: #475569;
+      color: var(--texto-suave);
       font-size: 0.95rem;
     }
 
     &-total {
       font-weight: 800;
       font-size: 1.15rem;
-      color: #0f172a;
-      border-top: 1px solid #e2e8f0;
+      color: var(--texto);
+      border-top: 1px solid var(--borde);
       margin-top: 6px;
       margin-bottom: 14px;
       padding-top: 14px;

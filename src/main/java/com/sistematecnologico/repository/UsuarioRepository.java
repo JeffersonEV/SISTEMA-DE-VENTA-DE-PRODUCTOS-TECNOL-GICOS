@@ -13,7 +13,6 @@ import java.util.Optional;
 @Repository
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 
-    // ---------- Derived queries ----------
     Optional<Usuario> findByEmail(String email);
 
     boolean existsByEmail(String email);
@@ -26,7 +25,6 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 
     long countByRol(Rol rol);
 
-    // ---------- JPQL ----------
     @Query("SELECT u FROM Usuario u WHERE u.activo = true ORDER BY u.fechaRegistro DESC")
     List<Usuario> listarActivos();
 

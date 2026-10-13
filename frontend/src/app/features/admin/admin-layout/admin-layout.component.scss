@@ -1,0 +1,231 @@
+.admin-shell {
+  display: grid;
+  grid-template-columns: 260px minmax(0, 1fr);
+  min-height: calc(100vh - 120px);
+  transition: grid-template-columns 0.25s ease;
+
+  &--cerrado {
+    grid-template-columns: 76px minmax(0, 1fr);
+  }
+}
+
+.admin-side {
+  background: var(--chrome);
+  padding: 18px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  min-width: 0;
+  overflow: hidden;
+  border-radius: 0 16px 16px 0;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+
+  &__marca {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 4px 14px;
+    border-bottom: 1px solid var(--chrome-borde);
+    overflow: hidden;
+  }
+
+  &__marca-txt {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    overflow: hidden;
+    white-space: nowrap;
+    transition: opacity 0.2s ease;
+
+    &--oculto {
+      opacity: 0;
+      width: 0;
+    }
+  }
+
+  &__logo {
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: #fff;
+    white-space: nowrap;
+
+    span {
+      color: var(--chrome-acento);
+    }
+  }
+
+  &__rol {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: var(--chrome-acento);
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  &__hamburguesa {
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--chrome-hover);
+    border: 1px solid var(--chrome-borde);
+    border-radius: 9px;
+    color: var(--chrome-suave);
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+
+    &:hover {
+      background: var(--chrome-activo);
+      color: #fff;
+    }
+
+    &-ico {
+      font-size: 1.1rem;
+      line-height: 1;
+    }
+  }
+
+  &__menu {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    a {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 11px 12px;
+      border-radius: 9px;
+      color: var(--chrome-suave);
+      font-weight: 500;
+      white-space: nowrap;
+      overflow: hidden;
+      transition: background 0.15s, color 0.15s;
+
+      &:hover {
+        background: var(--chrome-hover);
+        color: #fff;
+        text-decoration: none;
+      }
+
+      &.activo {
+        background: var(--primario);
+        color: #fff;
+        font-weight: 600;
+      }
+    }
+  }
+
+  &__ico {
+    font-size: 1.15rem;
+    width: 24px;
+    text-align: center;
+    flex-shrink: 0;
+  }
+
+  &__etiqueta {
+    overflow: hidden;
+    transition: opacity 0.2s ease;
+
+    &--oculta {
+      opacity: 0;
+      width: 0;
+    }
+  }
+
+  &__pie {
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-top: 14px;
+    border-top: 1px solid var(--chrome-borde);
+  }
+
+  &__usuario {
+    color: var(--chrome-texto);
+    font-size: 0.9rem;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+
+    &--oculto {
+      opacity: 0;
+      height: 0;
+    }
+  }
+
+  &__salir {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: transparent;
+    color: #fca5a5;
+    border: 1px solid rgba(252, 165, 165, 0.5);
+    border-radius: 8px;
+    padding: 9px 12px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    overflow: hidden;
+    transition: background 0.15s;
+
+    &:hover {
+      background: rgba(220, 38, 38, 0.2);
+    }
+
+    &-ico {
+      font-size: 1.05rem;
+      line-height: 1;
+      flex-shrink: 0;
+    }
+
+    &-txt {
+      overflow: hidden;
+      transition: opacity 0.2s ease;
+
+      &--oculta {
+        opacity: 0;
+        width: 0;
+      }
+    }
+  }
+}
+
+.admin-shell--cerrado {
+  .admin-side__marca {
+    justify-content: center;
+  }
+
+  .admin-side__menu a {
+    justify-content: center;
+  }
+}
+
+.admin-content {
+  min-width: 0;
+  padding: 0 28px 28px;
+
+  &__barra {
+    display: none;
+  }
+}
+
+@media (max-width: 900px) {
+  .admin-shell {
+    grid-template-columns: 220px minmax(0, 1fr);
+  }
+
+  .admin-shell--cerrado {
+    grid-template-columns: 64px minmax(0, 1fr);
+  }
+
+  .admin-content {
+    padding: 0 16px 24px;
+  }
+}

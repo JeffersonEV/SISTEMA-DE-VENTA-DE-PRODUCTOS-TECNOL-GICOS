@@ -17,9 +17,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-/**
- * CRUD completo de usuarios (protegido con rol ADMIN).
- */
 @RestController
 @RequestMapping("/api/usuarios")
 @Tag(name = "Usuarios", description = "CRUD de usuarios (solo ADMIN)")

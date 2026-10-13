@@ -21,9 +21,10 @@
 
 .usuarios__select {
   padding: 6px 10px;
-  border: 1px solid #e2e8f0;
+  border: 1px solid var(--borde);
   border-radius: 8px;
-  background: #fff;
+  background: var(--input-bg);
+  color: var(--texto);
   font-size: 0.85rem;
   cursor: pointer;
 }
